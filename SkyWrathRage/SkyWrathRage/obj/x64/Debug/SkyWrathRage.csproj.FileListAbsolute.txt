@@ -1,0 +1,11 @@
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\SkyWrathRage\SkyWrathRage\bin\Debug\SkyWrathRage.exe.config
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\SkyWrathRage\SkyWrathRage\bin\Debug\SkyWrathRage.exe
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\SkyWrathRage\SkyWrathRage\bin\Debug\SkyWrathRage.pdb
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\SkyWrathRage\SkyWrathRage\bin\Debug\clipper_library.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\SkyWrathRage\SkyWrathRage\bin\Debug\Ensage.Common.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\SkyWrathRage\SkyWrathRage\bin\Debug\Ensage.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\SkyWrathRage\SkyWrathRage\bin\Debug\SharpDX.Direct3D9.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\SkyWrathRage\SkyWrathRage\bin\Debug\SharpDX.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\SkyWrathRage\SkyWrathRage\bin\Debug\EnsageSharp.Sandbox.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\SkyWrathRage\SkyWrathRage\obj\x64\Debug\SkyWrathRage.exe
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\SkyWrathRage\SkyWrathRage\obj\x64\Debug\SkyWrathRage.pdb

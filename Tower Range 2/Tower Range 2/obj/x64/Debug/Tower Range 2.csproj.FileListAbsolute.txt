@@ -1,0 +1,12 @@
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tower Range 2\Tower Range 2\bin\Debug\Tower Range 2.exe.config
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tower Range 2\Tower Range 2\bin\Debug\Tower Range 2.exe
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tower Range 2\Tower Range 2\bin\Debug\Tower Range 2.pdb
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tower Range 2\Tower Range 2\bin\Debug\clipper_library.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tower Range 2\Tower Range 2\bin\Debug\Ensage.Common.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tower Range 2\Tower Range 2\bin\Debug\Ensage.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tower Range 2\Tower Range 2\bin\Debug\SharpDX.Direct3D9.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tower Range 2\Tower Range 2\bin\Debug\SharpDX.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tower Range 2\Tower Range 2\bin\Debug\EnsageSharp.Sandbox.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tower Range 2\Tower Range 2\obj\x64\Debug\Tower Range 2.exe
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tower Range 2\Tower Range 2\obj\x64\Debug\Tower Range 2.pdb
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tower Range 2\Tower Range 2\obj\x64\Debug\Tower Range 2.csprojResolveAssemblyReference.cache

@@ -1,0 +1,13 @@
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Enigma\Enigma\bin\Debug\Enigma.exe.config
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Enigma\Enigma\bin\Debug\Enigma.exe
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Enigma\Enigma\bin\Debug\Enigma.pdb
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Enigma\Enigma\bin\Debug\clipper_library.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Enigma\Enigma\bin\Debug\Ensage.Common.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Enigma\Enigma\bin\Debug\Ensage.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Enigma\Enigma\bin\Debug\SharpDX.Direct3D9.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Enigma\Enigma\bin\Debug\SharpDX.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Enigma\Enigma\bin\Debug\EnsageSharp.Sandbox.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Enigma\Enigma\bin\Debug\EnsageSharp.Sandbox.pdb
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Enigma\Enigma\obj\x64\Debug\Enigma.csprojResolveAssemblyReference.cache
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Enigma\Enigma\obj\x64\Debug\Enigma.exe
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Enigma\Enigma\obj\x64\Debug\Enigma.pdb

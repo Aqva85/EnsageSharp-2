@@ -1,0 +1,13 @@
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\PerfectOverlay\PerfectOverlay\bin\Debug\PerfectOverlay.exe.config
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\PerfectOverlay\PerfectOverlay\bin\Debug\PerfectOverlay.exe
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\PerfectOverlay\PerfectOverlay\bin\Debug\PerfectOverlay.pdb
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\PerfectOverlay\PerfectOverlay\bin\Debug\clipper_library.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\PerfectOverlay\PerfectOverlay\bin\Debug\Ensage.Common.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\PerfectOverlay\PerfectOverlay\bin\Debug\Ensage.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\PerfectOverlay\PerfectOverlay\bin\Debug\SharpDX.Direct3D9.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\PerfectOverlay\PerfectOverlay\bin\Debug\SharpDX.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\PerfectOverlay\PerfectOverlay\bin\Debug\EnsageSharp.Sandbox.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\PerfectOverlay\PerfectOverlay\obj\x64\Debug\PerfectOverlay.exe
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\PerfectOverlay\PerfectOverlay\obj\x64\Debug\PerfectOverlay.pdb
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\PerfectOverlay\PerfectOverlay\obj\x64\Debug\PerfectOverlay.csprojResolveAssemblyReference.cache
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\PerfectOverlay\PerfectOverlay\bin\Debug\EnsageSharp.Sandbox.pdb

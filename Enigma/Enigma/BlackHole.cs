@@ -16,7 +16,7 @@ namespace Enigma
 {
     class BlackHole
     {
-        private static readonly Menu Menu = new Menu("Enigma", "Enigma", true);
+        private static readonly Menu Menu = new Menu("Enigma", "Enigma", true,"npc_dota_hero_enigma", true);
         private static readonly Menu Menu_Items = new Menu("Items: ", "Items: ");
         private static Ability midnightpulse, blackhole;
         private static Item blink, bkb, veil, shivas, refresher, glimmer;

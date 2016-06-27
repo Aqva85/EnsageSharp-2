@@ -21,7 +21,7 @@ namespace ChallengeAccepted
         private static readonly Menu _3_item_config = new Menu("Mana/Health Itens: ", "Mana/Health Itens: ");
         private static readonly Menu _skill_config = new Menu("Skills", "Skills");
         private static Ability Duel, Heal, Odds;
-        private static Item blink, armlet, blademail, bkb, abyssal, mjollnir, halberd, medallion, madness, urn, satanic, solar, dust, sentry, mango, arcane, buckler, crimson, lotusorb, cheese, magistick, magicwand, soulring, force, cyclone, vyse, atos, difusal;
+        private static Item blink, armlet, blademail, bkb, abyssal, mjollnir, halberd, medallion, madness, urn, satanic, solar, dust, sentry, mango, arcane, buckler, crimson, lotusorb, cheese, magistick, magicwand, soulring, force, cyclone, vyse, atos, difusal, bloodthorn, malevo, hurricanepike;
         private static Hero me, target;
         private static readonly Dictionary<string, bool> duel_items = new Dictionary<string, bool>
             {
@@ -41,26 +41,31 @@ namespace ChallengeAccepted
             {
                 {"item_black_king_bar",true},
                 {"item_blade_mail",true},
-                {"item_satanic",true}
+                {"item_satanic",true},
+                {"item_bloodthorn",true}
             };
         private static readonly Dictionary<string, bool> duel_items4 = new Dictionary<string, bool>
             {
                 {"item_lotus_orb",true},
                 {"item_magic_stick",true},
-                {"item_magic_wand",true}
+                {"item_magic_wand",true},
+                {"item_orchid",true}
             };
         private static readonly Dictionary<string, bool> pop_linkens_itens = new Dictionary<string, bool>
             {
                 {"item_sheepstick",true},
                 {"item_abyssal_blade",true},
                 {"item_diffusal_blade",true},
-                {"item_rod_of_atos",true}
+                {"item_rod_of_atos",true},
+                {"item_orchid",true}
             };
         private static readonly Dictionary<string, bool> pop_linkens_itens2 = new Dictionary<string, bool>
             {
                 {"item_heavens_halberd",true},
                 {"item_force_staff",true},
                 {"item_cyclone",true},
+                {"item_hurricane_pike",true},
+                {"item_bloodthorn",true}
             };
         private static readonly Dictionary<string, bool> skills = new Dictionary<string, bool>
             {
@@ -100,7 +105,6 @@ namespace ChallengeAccepted
             _skill_config.AddItem(new MenuItem("Skills", "Skills").SetValue(new AbilityToggler(skills)));
             Menu.AddToMainMenu();
             PrintSuccess(">Challenge Accepted");
-            //Game.OnUpdate += Working;
             Game.OnWndProc += Working;
             Drawing.OnDraw += markedfordeath;
         }
@@ -139,7 +143,17 @@ namespace ChallengeAccepted
                             manacheck();
                             if (target.IsLinkensProtected())
                             {
-                                if (((cyclone.CanBeCasted() && Menu.Item("Pop Linkens2: ").GetValue<AbilityToggler>().IsEnabled(cyclone.Name)) || (force.CanBeCasted() && Menu.Item("Pop Linkens2: ").GetValue<AbilityToggler>().IsEnabled(force.Name)) || (halberd.CanBeCasted() && Menu.Item("Pop Linkens2: ").GetValue<AbilityToggler>().IsEnabled(halberd.Name)) || (vyse.CanBeCasted() && Menu.Item("Pop Linkens: ").GetValue<AbilityToggler>().IsEnabled(vyse.Name)) || (abyssal.CanBeCasted() && Menu.Item("Pop Linkens: ").GetValue<AbilityToggler>().IsEnabled(abyssal.Name)) || (atos.CanBeCasted() && Menu.Item("Pop Linkens: ").GetValue<AbilityToggler>().IsEnabled(atos.Name)) || (difusal.CanBeCasted() && Menu.Item("Pop Linkens: ").GetValue<AbilityToggler>().IsEnabled("item_diffusal_blade"))) && Utils.SleepCheck("Combo2"))
+                                if (((cyclone.CanBeCasted() && Menu.Item("Pop Linkens2: ").GetValue<AbilityToggler>().IsEnabled(cyclone.Name)) 
+                                    || (force.CanBeCasted() && Menu.Item("Pop Linkens2: ").GetValue<AbilityToggler>().IsEnabled(force.Name)) 
+                                    || (halberd.CanBeCasted() && Menu.Item("Pop Linkens2: ").GetValue<AbilityToggler>().IsEnabled(halberd.Name)) 
+                                    || (vyse.CanBeCasted() && Menu.Item("Pop Linkens: ").GetValue<AbilityToggler>().IsEnabled(vyse.Name)) 
+                                    || (abyssal.CanBeCasted() && Menu.Item("Pop Linkens: ").GetValue<AbilityToggler>().IsEnabled(abyssal.Name)) 
+                                    || (atos.CanBeCasted() && Menu.Item("Pop Linkens: ").GetValue<AbilityToggler>().IsEnabled(atos.Name)) 
+                                    || (difusal.CanBeCasted() && Menu.Item("Pop Linkens: ").GetValue<AbilityToggler>().IsEnabled("item_diffusal_blade")) 
+                                    /* new items*/ || (malevo.CanBeCasted() && Menu.Item("Pop Linkens: ").GetValue<AbilityToggler>().IsEnabled("item_orchid"))
+                                    || (hurricanepike.CanBeCasted() && Menu.Item("Pop Linkens2: ").GetValue<AbilityToggler>().IsEnabled("item_hurricane_pike"))
+                                    || (bloodthorn.CanBeCasted() && Menu.Item("Pop Linkens2: ").GetValue<AbilityToggler>().IsEnabled("item_bloodthorn"))
+                                    ) && Utils.SleepCheck("Combo2"))
                                 {
                                     if (blademail != null && blademail.Cooldown <= 0 && Menu.Item("Duel Items3").GetValue<AbilityToggler>().IsEnabled(blademail.Name) && me.Mana - blademail.ManaCost >= 75)
                                         blademail.UseAbility();
@@ -192,10 +206,25 @@ namespace ChallengeAccepted
                                         force.UseAbility(target);
                                         Utils.Sleep(100, "ForceRemoveLinkens");
                                     }
+                                    else if (hurricanepike != null && hurricanepike.CanBeCasted() && Utils.SleepCheck("PikeRemoveLinkens") && Menu.Item("Pop Linkens2: ").GetValue<AbilityToggler>().IsEnabled(hurricanepike.Name) && me.Mana - hurricanepike.ManaCost >= 75)
+                                    {
+                                        hurricanepike.UseAbility(target);
+                                        Utils.Sleep(100, "PikeRemoveLinkens");
+                                    }
                                     else if (halberd != null && halberd.CanBeCasted() && Utils.SleepCheck("halberdLinkens") && Menu.Item("Pop Linkens2: ").GetValue<AbilityToggler>().IsEnabled(halberd.Name) && me.Mana - halberd.ManaCost >= 75)
                                     {
                                         halberd.UseAbility(target);
                                         Utils.Sleep(100, "halberdLinkens");
+                                    }
+                                    else if (bloodthorn != null && bloodthorn.CanBeCasted() && Utils.SleepCheck("bloodRemoveLinkens") && Menu.Item("Pop Linkens2: ").GetValue<AbilityToggler>().IsEnabled(bloodthorn.Name) && me.Mana - bloodthorn.ManaCost >= 75)
+                                    {
+                                        bloodthorn.UseAbility(target);
+                                        Utils.Sleep(100, "bloodRemoveLinkens");
+                                    }
+                                    else if (malevo != null && malevo.CanBeCasted() && Utils.SleepCheck("malevoRemoveLinkens") && Menu.Item("Pop Linkens: ").GetValue<AbilityToggler>().IsEnabled(malevo.Name) && me.Mana - malevo.ManaCost >= 75)
+                                    {
+                                        malevo.UseAbility(target);
+                                        Utils.Sleep(100, "malevoRemoveLinkens");
                                     }
                                     else if (vyse != null && vyse.CanBeCasted() && Utils.SleepCheck("vyseLinkens") && Menu.Item("Pop Linkens: ").GetValue<AbilityToggler>().IsEnabled(vyse.Name) && me.Mana - vyse.ManaCost >= 75)
                                     {
@@ -294,7 +323,16 @@ namespace ChallengeAccepted
                                         medallion.UseAbility(target);
                                     else
                                         elsecount += 1;
-                                    if (Duel != null && Duel.Cooldown <= 0 && !target.IsLinkensProtected() && !target.Modifiers.Any(x => x.Name == "modifier_abaddon_borrowed_time") && Utils.SleepCheck("Duel") && elsecount == 16)
+                                    // NEW ITENS
+                                    if (bloodthorn != null && bloodthorn.CanBeCasted() && (malevo != null ? malevo.CanBeCasted() : true) && Menu.Item("Duel Items3").GetValue<AbilityToggler>().IsEnabled(bloodthorn.Name))
+                                        bloodthorn.UseAbility(target);
+                                    else
+                                        elsecount += 1;
+                                    if (malevo != null && malevo.CanBeCasted() && (bloodthorn != null ? bloodthorn.CanBeCasted() : true) && Menu.Item("Duel Items4").GetValue<AbilityToggler>().IsEnabled(malevo.Name))
+                                        malevo.UseAbility(target);
+                                    else
+                                        elsecount += 1;
+                                    if (Duel != null && Duel.Cooldown <= 0 && !target.IsLinkensProtected() && !target.Modifiers.Any(x => x.Name == "modifier_abaddon_borrowed_time") && Utils.SleepCheck("Duel") && elsecount == 18)
                                     {
                                         Duel.UseAbility(target);
                                         Utils.Sleep(100, "Duel");
@@ -328,9 +366,8 @@ namespace ChallengeAccepted
                 || x.Name == "modifier_pugna_decrepify"
                 || (x.Name == "modifier_windrunner_windrun" && !me.Inventory.Items.Any(y => y.Name == "item_monkey_king_bar"))
                 || x.Name == "modifier_winter_wyverny_cold_embrace"
-                /*|| x.Name == "modifier_ghost_state" 
-                || x.Name == "modifier_item_ethereal_blade_ethereal" 
-                || x.Name == "modifier_item_ethereal_blade_ethereal"*/))
+                || x.Name == "modifier_ghost_state" 
+                || x.Name == "modifier_item_ethereal_blade_ethereal"))
             {
                 if (Heal.CanBeCasted() && me.Modifiers.Any(x => (x.Name == "modifier_tinker_laser_blind" && !me.Inventory.Items.Any(y => y.Name == "item_monkey_king_bar")) || (x.Name == "modifier_troll_warlord_whirling_axes_blind" && !me.Inventory.Items.Any(y => y.Name == "item_monkey_king_bar")) || x.Name == "modifier_pugna_decrepify"))
                 {
@@ -420,7 +457,10 @@ namespace ChallengeAccepted
             force = me.FindItem("item_force_staff");
             cyclone = me.FindItem("item_cyclone");
             vyse = me.FindItem("item_sheepstick");
+            hurricanepike = me.FindItem("item_hurricane_pike");
+            bloodthorn = me.FindItem("item_bloodthorn");
             atos = me.FindItem("item_rod_of_atos");
+            malevo = me.FindItem("item_orchid");
             difusal = me.Inventory.Items.FirstOrDefault(item => item.Name.Contains("item_diffusal_blade"));
             Duel = me.Spellbook.SpellR;
             Heal = me.Spellbook.SpellW;
@@ -431,6 +471,7 @@ namespace ChallengeAccepted
             uint manacost = 0;
             if (me.IsAlive)
             {
+                // NEED TO ADD SOME ITENS
                 if (blademail != null && blademail.Cooldown <= 0 && Menu.Item("Duel Items3").GetValue<AbilityToggler>().IsEnabled(blademail.Name))
                     manacost += blademail.ManaCost;
                 if (abyssal != null && abyssal.Cooldown <= 0 && Menu.Item("Duel Items").GetValue<AbilityToggler>().IsEnabled(abyssal.Name))

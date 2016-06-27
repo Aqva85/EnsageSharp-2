@@ -1,0 +1,13 @@
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tinker_Perfect_type\Tinker_Perfect_type\bin\Debug\Tinker_Perfect_type.exe.config
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tinker_Perfect_type\Tinker_Perfect_type\bin\Debug\Tinker_Perfect_type.exe
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tinker_Perfect_type\Tinker_Perfect_type\bin\Debug\Tinker_Perfect_type.pdb
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tinker_Perfect_type\Tinker_Perfect_type\bin\Debug\clipper_library.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tinker_Perfect_type\Tinker_Perfect_type\bin\Debug\Ensage.Common.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tinker_Perfect_type\Tinker_Perfect_type\bin\Debug\Ensage.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tinker_Perfect_type\Tinker_Perfect_type\bin\Debug\SharpDX.Direct3D9.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tinker_Perfect_type\Tinker_Perfect_type\bin\Debug\SharpDX.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tinker_Perfect_type\Tinker_Perfect_type\bin\Debug\EnsageSharp.Sandbox.dll
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tinker_Perfect_type\Tinker_Perfect_type\obj\x64\Debug\Tinker_Perfect_type.csprojResolveAssemblyReference.cache
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tinker_Perfect_type\Tinker_Perfect_type\obj\x64\Debug\Tinker_Perfect_type.exe
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tinker_Perfect_type\Tinker_Perfect_type\obj\x64\Debug\Tinker_Perfect_type.pdb
+C:\Users\Bruno\Desktop\Things\Visual Basic Scripts\bruninjaman\Tinker_Perfect_type\Tinker_Perfect_type\bin\Debug\EnsageSharp.Sandbox.pdb

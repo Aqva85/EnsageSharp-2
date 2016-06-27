@@ -61,7 +61,6 @@ namespace SkyWrathRage
                 {"skywrath_mage_ancient_seal",true},
                 {"skywrath_mage_mystic_flare",true}
             };
-        private static bool auto_attack, auto_attack_after_spell;
         private static int[] bolt_damage = new int[4] { 60, 80, 100, 120 };
         static void Main(string[] args)
         {
@@ -80,15 +79,6 @@ namespace SkyWrathRage
             _remove_linkens_items.AddItem(new MenuItem("Pop Linkens Items", "Pop Linkens Items").SetValue(new AbilityToggler(remove_linkens)));
             _skills.AddItem(new MenuItem("Skills", "Skills").SetValue(new AbilityToggler(skills_menu)));
             Menu.AddToMainMenu();
-            // Auto Attack Checker
-            if (Game.GetConsoleVar("dota_player_units_auto_attack_after_spell").GetInt() == 1)
-                auto_attack_after_spell = true;
-            else
-                auto_attack_after_spell = false;
-            if (Game.GetConsoleVar("dota_player_units_auto_attack").GetInt() == 1)
-                auto_attack = true;
-            else
-                auto_attack = false;
             // start
             PrintSuccess("> SkyWrath rage Script Injected!");
             Game.OnUpdate += Raging;
@@ -108,16 +98,15 @@ namespace SkyWrathRage
                 target = me.ClosestToMouseTarget();
                 if (target != null && target.IsValid && target.IsVisible && !target.IsIllusion && target.IsAlive && !me.IsChanneling() && !target.IsInvul())
                 {
-                    autoattack(true);
                     if (Utils.SleepCheck("FASTCOMBO"))
                     {
                         if (bolt.Level > 0 && bolt.CanBeCasted() && !target.IsMagicImmune() && Menu.Item("Skills").GetValue<AbilityToggler>().IsEnabled(bolt.Name))
                         {
-                            bolt.UseAbility(target);
+                            bolt.UseAbility(target,false);
                             Utils.Sleep(150, "FASTCOMBO");
                         }
                         else
-                            Orbwalking.Orbwalk(target);
+                            me.Attack(target, false);
                     }
                 }
                 else
@@ -126,43 +115,40 @@ namespace SkyWrathRage
                         me.Move(Game.MousePosition, false);
                 }
             }
-            else
-                autoattack(false);
             if (Game.IsKeyDown(Menu.Item("Combo Key").GetValue<KeyBind>().Key) && !Game.IsChatOpen)
             {
                 FindItems();
                 target = me.ClosestToMouseTarget(1200);
                 if (target != null && target.IsValid && target.IsVisible && !target.IsIllusion && target.IsAlive && !me.IsChanneling() && !target.IsInvul())
                 {
-                    autoattack(true);
                     if (target.IsLinkensProtected())
                     {
                         if (Utils.SleepCheck("DistanceDelay"))
                         {
                             if (cyclone != null && cyclone.CanBeCasted() && Menu.Item("Pop Linkens Items").GetValue<AbilityToggler>().IsEnabled(cyclone.Name))
-                                cyclone.UseAbility(target);
+                                cyclone.UseAbility(target, false);
                             else if (force != null && force.CanBeCasted() && Menu.Item("Pop Linkens Items").GetValue<AbilityToggler>().IsEnabled(force.Name))
-                                force.UseAbility(target);
+                                force.UseAbility(target, false);
                             else if (orchid != null && orchid.CanBeCasted() && Menu.Item("Pop Linkens Items").GetValue<AbilityToggler>().IsEnabled(orchid.Name))
-                                orchid.UseAbility(target);
+                                orchid.UseAbility(target, false);
                             else if (atos != null && atos.CanBeCasted() && Menu.Item("Pop Linkens Items").GetValue<AbilityToggler>().IsEnabled(atos.Name))
-                                atos.UseAbility(target);
+                                atos.UseAbility(target, false);
                             else if (silence.Level >= 1 && silence.CanBeCasted() && Menu.Item("Pop Linkens Items").GetValue<AbilityToggler>().IsEnabled(silence.Name))
-                                silence.UseAbility(target);
+                                silence.UseAbility(target, false);
                             else if (bolt.Level >= 1 && bolt.CanBeCasted() && Menu.Item("Pop Linkens Items").GetValue<AbilityToggler>().IsEnabled(bolt.Name))
                             {
-                                bolt.UseAbility(target);
+                                bolt.UseAbility(target, false);
                                 Utils.Sleep(me.NetworkPosition.Distance2D(target.NetworkPosition) / 500 * 1000, "DistanceDelay");
                             }
                             else if (dagon != null && dagon.CanBeCasted() && Menu.Item("Pop Linkens Items").GetValue<AbilityToggler>().IsEnabled("item_dagon"))
-                                dagon.UseAbility(target);
+                                dagon.UseAbility(target, false);
                             else if (ethereal != null && ethereal.CanBeCasted() && Menu.Item("Pop Linkens Items").GetValue<AbilityToggler>().IsEnabled(ethereal.Name))
                             {
-                                ethereal.UseAbility(target);
+                                ethereal.UseAbility(target, false);
                                 Utils.Sleep(me.NetworkPosition.Distance2D(target.NetworkPosition) / 1200 * 1000, "DistanceDelay");
                             }
                             else if (sheep != null && sheep.CanBeCasted() && Menu.Item("Pop Linkens Items").GetValue<AbilityToggler>().IsEnabled(sheep.Name))
-                                sheep.UseAbility(target);
+                                sheep.UseAbility(target, false);
                         }
 
                     }
@@ -173,55 +159,55 @@ namespace SkyWrathRage
                             bool EzkillCheck = EZkill(), MagicImune = target.IsMagicImmune();
                             uint elsecount = 0;
                             if (soulring != null && soulring.CanBeCasted() && Menu.Item("Soulring").GetValue<bool>())
-                                soulring.UseAbility();
+                                soulring.UseAbility(false);
                             else
                                 elsecount += 1;
                             if (sheep != null && sheep.CanBeCasted() && !target.UnitState.HasFlag(UnitState.Hexed) && !target.UnitState.HasFlag(UnitState.Stunned) && !MagicImune && Menu.Item("Disable/slow Items").GetValue<AbilityToggler>().IsEnabled(sheep.Name))
-                                sheep.UseAbility(target);
+                                sheep.UseAbility(target, false);
                             else
                                 elsecount += 1;
                             if (silence.Level > 0 && silence.CanBeCasted() && !MagicImune && Menu.Item("Skills").GetValue<AbilityToggler>().IsEnabled(silence.Name))
-                                silence.UseAbility(target);
+                                silence.UseAbility(target, false);
                             else
                                 elsecount += 1;
                             if (atos != null && atos.CanBeCasted() && !MagicImune && target.MovementSpeed >= 200 && Menu.Item("Disable/slow Items").GetValue<AbilityToggler>().IsEnabled(atos.Name))
-                                atos.UseAbility(target);
+                                atos.UseAbility(target, false);
                             else
                                 elsecount += 1;
                             if (slow.Level > 0 && slow.CanBeCasted() && target.NetworkPosition.Distance2D(me) <= 1600 && !MagicImune && Menu.Item("Skills").GetValue<AbilityToggler>().IsEnabled(slow.Name))
                             {
-                                slow.UseAbility();
+                                slow.UseAbility(false);
                                 if (Utils.SleepCheck("SlowDelay") && me.Distance2D(target) <= slow.CastRange)
                                     Utils.Sleep(((me.NetworkPosition.Distance2D(target.NetworkPosition) / 500) * 1000), "SlowDelay");
                             }
                             else
                                 elsecount += 1;
                             if (orchid != null && orchid.CanBeCasted() && !MagicImune && Menu.Item("Magic Amplify Items").GetValue<AbilityToggler>().IsEnabled(orchid.Name))
-                                orchid.UseAbility(target);
+                                orchid.UseAbility(target, false);
                             else
                                 elsecount += 1;
                             if (veil != null && veil.CanBeCasted() && !MagicImune && Menu.Item("Magic Amplify Items").GetValue<AbilityToggler>().IsEnabled(veil.Name))
-                                veil.UseAbility(target.NetworkPosition);
+                                veil.UseAbility(target.NetworkPosition, false);
                             else
                                 elsecount += 1;
                             if (shivas != null && shivas.CanBeCasted() && !EzkillCheck && !MagicImune && Menu.Item("Magic Damage Items").GetValue<AbilityToggler>().IsEnabled(shivas.Name))
-                                shivas.UseAbility();
+                                shivas.UseAbility(false);
                             else
                                 elsecount += 1;
                             if (ethereal != null && ethereal.CanBeCasted() && (!veil.CanBeCasted() || veil == null | !Menu.Item("Magic Amplify Items").GetValue<AbilityToggler>().IsEnabled(veil.Name)) && !MagicImune && Menu.Item("Magic Amplify Items").GetValue<AbilityToggler>().IsEnabled(ethereal.Name))
                             {
-                                ethereal.UseAbility(target);
+                                ethereal.UseAbility(target, false);
                                 if (Utils.SleepCheck("EtherealDelay") && me.Distance2D(target) <= ethereal.CastRange)
                                     Utils.Sleep(((me.NetworkPosition.Distance2D(target.NetworkPosition) / 1200) * 1000), "EtherealDelay");
                             }
                             else
                                 elsecount += 1;
                             if (dagon != null && dagon.CanBeCasted() && (!veil.CanBeCasted() || veil == null | !Menu.Item("Magic Amplify Items").GetValue<AbilityToggler>().IsEnabled(veil.Name)) && !silence.CanBeCasted() && !ethereal.CanBeCasted() && Utils.SleepCheck("EtherealDelay") && !MagicImune && Menu.Item("Magic Damage Items").GetValue<AbilityToggler>().IsEnabled("item_dagon"))
-                                dagon.UseAbility(target);
+                                dagon.UseAbility(target, false);
                             else
                                 elsecount += 1;
                             if (bolt.Level > 0 && bolt.CanBeCasted() && !EzkillCheck && !MagicImune && Menu.Item("Skills").GetValue<AbilityToggler>().IsEnabled(bolt.Name))
-                                bolt.UseAbility(target);
+                                bolt.UseAbility(target, false);
                             else
                                 elsecount += 1;
                             if (mysticflare.Level > 0 && mysticflare.CanBeCasted() && (Utils.SleepCheck("EtherealDelay")
@@ -232,9 +218,9 @@ namespace SkyWrathRage
                                 && (!atos.CanBeCasted() || atos == null | Menu.Item("Disable/slow Items").GetValue<AbilityToggler>().IsEnabled(atos.Name)) && (!slow.CanBeCasted() || !Menu.Item("Skills").GetValue<AbilityToggler>().IsEnabled(slow.Name)) && (!ethereal.CanBeCasted() || ethereal == null | !Menu.Item("Magic Amplify Items").GetValue<AbilityToggler>().IsEnabled(ethereal.Name)) && !MagicImune && Menu.Item("Skills").GetValue<AbilityToggler>().IsEnabled("skywrath_mage_mystic_flare"))
                             {
                                 if (!target.CanMove() || target.NetworkActivity == NetworkActivity.Idle)
-                                    mysticflare.UseAbility(target.NetworkPosition);
+                                    mysticflare.UseAbility(target.NetworkPosition, false);
                                 else
-                                    mysticflare.UseAbility(Prediction.PredictedXYZ(target, (220 / target.MovementSpeed) * 1000));
+                                    mysticflare.UseAbility(Prediction.PredictedXYZ(target, (220 / target.MovementSpeed) * 1000), false);
                                 int[] mysticflaredamage = new int[3] { 600, 1000, 1400 };
                                 if (target.Health <= target.DamageTaken(mysticflaredamage[mysticflare.Level - 1], DamageType.Magical, me, false, 0, 0, 0))
                                     Utils.Sleep(2500, "MysticDamaging");
@@ -242,7 +228,7 @@ namespace SkyWrathRage
                             else
                                 elsecount += 1;
                             if (elsecount == 12)
-                                Orbwalking.Orbwalk(target);
+                                me.Attack(target,false);
                             Utils.Sleep(150, "FASTCOMBO");
                         }
                     }
@@ -253,8 +239,6 @@ namespace SkyWrathRage
                         me.Move(Game.MousePosition, false);
                 }
             }
-            else
-                autoattack(false);
         }
         static bool IsLinkensProtected(Hero x)
         {
@@ -342,30 +326,9 @@ namespace SkyWrathRage
         }
         static Vector2 HeroPositionOnScreen(Hero x)
         {
-            float scaleX = HUDInfo.ScreenSizeX();
-            float scaleY = HUDInfo.ScreenSizeY();
             Vector2 PicPosition;
-            Drawing.WorldToScreen(x.Position, out PicPosition);
-            PicPosition = new Vector2((float)(PicPosition.X + (scaleX * -0.035)), (float)((PicPosition.Y) + (scaleY * -0.10)));
+            PicPosition = new Vector2(HUDInfo.GetHPbarPosition(x).X - 1, HUDInfo.GetHPbarPosition(x).Y - 40);
             return PicPosition;
-        }
-        static void autoattack(bool key)
-        {
-            if (key)
-            {
-                if (auto_attack)
-                    Game.ExecuteCommand("dota_player_units_auto_attack 0");
-                if (auto_attack_after_spell)
-                    Game.ExecuteCommand("dota_player_units_auto_attack_after_spell 0");
-            }
-            else
-            {
-                if (auto_attack)
-                    Game.ExecuteCommand("dota_player_units_auto_attack 1");
-                if (auto_attack_after_spell)
-                    Game.ExecuteCommand("dota_player_units_auto_attack_after_spell 1");
-            }
-
         }
         private static void PrintSuccess(string text, params object[] arguments)
         {

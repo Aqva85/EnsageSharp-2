@@ -1,2 +1,0 @@
-C:\Users\Bruno\Desktop\Arquivos Jogos ou Programas\Visual Basic Scripts\bruninjaman\Necrophos\Necrophos\bin\Release\Necrophos.exe.config
-C:\Users\Bruno\Desktop\Arquivos Jogos ou Programas\Visual Basic Scripts\EnsageSharp-repositories\EnsageSharp\Necrophos\Necrophos\bin\Release\Necrophos.exe.config

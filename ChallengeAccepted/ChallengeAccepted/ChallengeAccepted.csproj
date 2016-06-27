@@ -44,22 +44,22 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="clipper_library">
-      <HintPath>D:\EnsageSharp\LeagueSharp\PlaySharp\System\clipper_library.dll</HintPath>
+      <HintPath>D:\SharpThing\System\clipper_library.dll</HintPath>
     </Reference>
     <Reference Include="Ensage">
-      <HintPath>D:\EnsageSharp\LeagueSharp\PlaySharp\System\Ensage.dll</HintPath>
+      <HintPath>D:\SharpThing\System\Ensage.dll</HintPath>
     </Reference>
     <Reference Include="Ensage.Common">
-      <HintPath>D:\EnsageSharp\LeagueSharp\PlaySharp\System\Ensage.Common.dll</HintPath>
+      <HintPath>D:\SharpThing\System\Ensage.Common.dll</HintPath>
     </Reference>
     <Reference Include="Ensage.Menu">
-      <HintPath>D:\EnsageSharp\LeagueSharp\PlaySharp\System\Ensage.Menu.dll</HintPath>
+      <HintPath>D:\SharpThing\System\Ensage.Menu.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
-      <HintPath>D:\EnsageSharp\LeagueSharp\PlaySharp\System\SharpDX.dll</HintPath>
+      <HintPath>D:\SharpThing\System\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D9">
-      <HintPath>D:\EnsageSharp\LeagueSharp\PlaySharp\System\SharpDX.Direct3D9.dll</HintPath>
+      <HintPath>D:\SharpThing\System\SharpDX.Direct3D9.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />

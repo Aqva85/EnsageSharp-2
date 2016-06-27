@@ -6,6 +6,7 @@ using Ensage.Common.Extensions;
 using Ensage.Common;
 using Ensage.Common.Menu;
 using SharpDX;
+using System.Drawing;
 
 namespace Tinker_Perfect_type
 {
@@ -14,9 +15,12 @@ namespace Tinker_Perfect_type
         private static Ability Laser, Rocket, Refresh, March;
         private static Item Blink, Dagon, Hex, Soulring, Ethereal, Shiva, ghost, euls, forcestaff, glimmer, bottle, travel, veil;
         private static Hero me, target;
+        private static ParticleEffect SmartBlinkEffect;
+        private static Vector3 mousepos;
         //private static Vector3 Radiant = new Vector3(-7472, -6938, 528), Dire = new Vector3(7472, 6192, 512);
         //private static int stage = 0;
-        private static bool auto_attack, auto_attack_after_spell;
+        //private static bool auto_attack, auto_attack_after_spell;
+        private static bool smartblink_option = false;
         private static readonly Menu Menu = new Menu("Tinker Perfect", "Tinker Perfect", true, "npc_dota_hero_tinker", true);
         private static readonly Menu _skills = new Menu("Skills", "Skills");
         private static readonly Menu _items = new Menu("Items", "Items");
@@ -68,19 +72,56 @@ namespace Tinker_Perfect_type
             _items2.AddItem(new MenuItem("Don't Use Combo on:", "Don't Use Combo on:").SetValue(new AbilityToggler(Items3)));
             Menu.AddToMainMenu();
             // Auto Attack Checker
-            if (Game.GetConsoleVar("dota_player_units_auto_attack_after_spell").GetInt() == 1)
-                auto_attack_after_spell = true;
-            else
-                auto_attack_after_spell = false;
-            if (Game.GetConsoleVar("dota_player_units_auto_attack").GetInt() == 1)
-                auto_attack = true;
-            else
-                auto_attack = false;
+            //if (Game.GetConsoleVar("dota_player_units_auto_attack_after_spell").GetInt() == 1)
+            //    auto_attack_after_spell = true;
+            //else
+            //    auto_attack_after_spell = false;
+            //if (Game.GetConsoleVar("dota_player_units_auto_attack").GetInt() == 1)
+            //    auto_attack = true;
+            //else
+            //    auto_attack = false;
             // start
             PrintSuccess(string.Format("> Tinker Perfect Type Loaded!"));
             //Game.OnUpdate
             Game.OnWndProc += Tinker_In_Madness;
+            Game.OnUpdate += SmartBlink;
             Drawing.OnDraw += markedfordeath;
+        }
+        public static void SmartBlink(EventArgs args)
+        {
+            if (!Game.IsInGame || Game.IsWatchingGame)
+                return;
+            me = ObjectMgr.LocalHero;
+            if (me == null)
+                return;
+            if (me.ClassID != ClassID.CDOTA_Unit_Hero_Tinker)
+                return;
+            if (((Game.IsKeyDown(Menu.Item("Smart Blink").GetValue<KeyBind>().Key)) && !Game.IsChatOpen) && Utils.SleepCheck("SmartblinkTime"))
+            {
+                smartblink_option = !smartblink_option;
+                Blink = me.FindItem("item_blink");
+                Utils.Sleep(300, "SmartblinkTime");
+                mousepos = Game.MousePosition;
+                if (SmartBlinkEffect != null)
+                    SmartBlinkEffect.Dispose();
+                SmartBlinkEffect = new ParticleEffect(@"particles\ui_mouseactions\drag_selected_ring.vpcf", mousepos);
+            }
+            if (smartblink_option)
+            {
+                SmartBlinkEffect.SetControlPoint(2, new Vector3(50, 255, 400));
+                SmartBlinkEffect.SetControlPoint(1, new Vector3(200, 34, 76));
+                if (Blink != null && Blink.CanBeCasted() && !me.IsChanneling() && !me.Spellbook.Spells.Any(x => x.IsInAbilityPhase) && Utils.SleepCheck("blink"))
+                {
+                    Blink.UseAbility(me.Distance2D(mousepos) < 1200 ? mousepos : new Vector3(me.NetworkPosition.X + 1150 * (float)Math.Cos(me.NetworkPosition.ToVector2().FindAngleBetween(mousepos.ToVector2(), true)), me.NetworkPosition.Y + 1150 * (float)Math.Sin(me.NetworkPosition.ToVector2().FindAngleBetween(mousepos.ToVector2(), true)), 100), false);
+                    Utils.Sleep(50, "blink");
+                }
+                if(Blink.Cooldown >= 11.5)
+                    smartblink_option = false;
+            }
+            else if(SmartBlinkEffect != null)
+            {
+                SmartBlinkEffect.Dispose();
+            }
         }
         public static void Tinker_In_Madness(EventArgs args)
         {
@@ -190,22 +231,12 @@ namespace Tinker_Perfect_type
             //    if (Utils.SleepCheck("CD_COMBO_FARM"))
             //        stage = 0;
             //}
-            if ((Game.IsKeyDown(Menu.Item("Smart Blink").GetValue<KeyBind>().Key)) && !Game.IsChatOpen)
-            {
-                Blink = me.FindItem("item_blink");
-                if(Blink != null && Blink.CanBeCasted() && !me.IsChanneling() && !me.Spellbook.Spells.Any(x => x.IsInAbilityPhase) && Utils.SleepCheck("blink"))
-                {
-                    var mousepos = Game.MousePosition;
-                    Blink.UseAbility(me.Distance2D(mousepos) < 1200 ? mousepos : new Vector3(me.NetworkPosition.X + 1150 * (float)Math.Cos(me.NetworkPosition.ToVector2().FindAngleBetween(mousepos.ToVector2(), true)), me.NetworkPosition.Y + 1150 * (float)Math.Sin(me.NetworkPosition.ToVector2().FindAngleBetween(mousepos.ToVector2(), true)), 100), false);
-                    Utils.Sleep(200, "blink");
-                }
-            }
             if ((Game.IsKeyDown(Menu.Item("Combo Key").GetValue<KeyBind>().Key)) && !Game.IsChatOpen)
             {
                 target = me.ClosestToMouseTarget(1000);
                 if (target != null && target.IsAlive && !target.IsIllusion && !me.IsChanneling() && !me.Spellbook.Spells.Any(x => x.IsInAbilityPhase) && !CanReflectDamage(target))
                 {
-                    autoattack(true);
+                    //autoattack(true);
                     FindItems();
                     if (target.IsLinkensProtected())
                     {
@@ -213,7 +244,7 @@ namespace Tinker_Perfect_type
                         {
                             if (Utils.SleepCheck("TimingToLinkens"))
                             {
-                                euls.UseAbility(target);
+                                euls.UseAbility(target,false);
                                 Utils.Sleep(200, "TimingToLinkens");
                             }
                         }
@@ -221,7 +252,7 @@ namespace Tinker_Perfect_type
                         {
                             if (Utils.SleepCheck("TimingToLinkens"))
                             {
-                                forcestaff.UseAbility(target);
+                                forcestaff.UseAbility(target,false);
                                 Utils.Sleep(200, "TimingToLinkens");
                             }
                         }
@@ -229,7 +260,7 @@ namespace Tinker_Perfect_type
                         {
                             if (Utils.SleepCheck("TimingToLinkens"))
                             {
-                                Ethereal.UseAbility(target);
+                                Ethereal.UseAbility(target,false);
                                 Utils.Sleep(200, "TimingToLinkens");
                                 Utils.Sleep(((me.NetworkPosition.Distance2D(target.NetworkPosition) / 1200) * 1000) + 200, "TimingToLinkens");
                             }
@@ -238,7 +269,7 @@ namespace Tinker_Perfect_type
                         {
                             if (Utils.SleepCheck("TimingToLinkens"))
                             {
-                                Laser.UseAbility(target);
+                                Laser.UseAbility(target,false);
                                 Utils.Sleep(200, "TimingToLinkens");
                             }
                         }
@@ -246,7 +277,7 @@ namespace Tinker_Perfect_type
                         {
                             if (Utils.SleepCheck("TimingToLinkens"))
                             {
-                                Dagon.UseAbility(target);
+                                Dagon.UseAbility(target,false);
                                 Utils.Sleep(200, "TimingToLinkens");
                             }
                         }
@@ -254,7 +285,7 @@ namespace Tinker_Perfect_type
                         {
                             if (Utils.SleepCheck("TimingToLinkens"))
                             {
-                                Hex.UseAbility(target);
+                                Hex.UseAbility(target,false);
                                 Utils.Sleep(200, "TimingToLinkens");
                             }
                         }
@@ -272,48 +303,48 @@ namespace Tinker_Perfect_type
                         //}
                         if (glimmer != null && glimmer.CanBeCasted() && Menu.Item("Items2: ").GetValue<AbilityToggler>().IsEnabled(glimmer.Name) && Utils.SleepCheck("Rearm") && !Refresh.IsChanneling && Utils.SleepCheck("glimmer"))
                         {
-                            glimmer.UseAbility(me);
-                            Utils.Sleep(200 - Game.Ping, "glimmer");
+                            glimmer.UseAbility(me,false);
+                            Utils.Sleep(200, "glimmer");
                         }
                         else
                             elsecount += 1;
                         if(veil != null && veil.CanBeCasted() && Menu.Item("Items2: ").GetValue<AbilityToggler>().IsEnabled(veil.Name) && Utils.SleepCheck("Rearm") && !Refresh.IsChanneling && Utils.SleepCheck("veil"))
                         {
-                            veil.UseAbility(target.Position);
+                            veil.UseAbility(target.Position,false);
                             Utils.Sleep(200, "veil");
                         }
                         if (ghost != null && Ethereal == null && ghost.CanBeCasted() && Menu.Item("Items2: ").GetValue<AbilityToggler>().IsEnabled(ghost.Name) && Utils.SleepCheck("Rearm") && !Refresh.IsChanneling && Utils.SleepCheck("ghost"))
                         {
-                            ghost.UseAbility();
-                            Utils.Sleep(200 - Game.Ping, "ghost");
+                            ghost.UseAbility(false);
+                            Utils.Sleep(200, "ghost");
                         }
                         else
                             elsecount += 1;
                         if (Soulring != null && Soulring.CanBeCasted() && Menu.Item("Items: ").GetValue<AbilityToggler>().IsEnabled(Soulring.Name) && Utils.SleepCheck("Rearm") && !Refresh.IsChanneling && Utils.SleepCheck("soulring"))
                         {
-                            Soulring.UseAbility();
-                            Utils.Sleep(200 - Game.Ping, "soulring");
+                            Soulring.UseAbility(false);
+                            Utils.Sleep(200, "soulring");
                         }
                         else
                             elsecount += 1;
                         if (Hex != null && Hex.CanBeCasted() && Menu.Item("Items: ").GetValue<AbilityToggler>().IsEnabled(Hex.Name) && magicimune && Utils.SleepCheck("Rearm") && !Refresh.IsChanneling && Utils.SleepCheck("Hex"))
                         {
-                            Hex.UseAbility(target);
-                            Utils.Sleep(200 - Game.Ping, "Hex");
+                            Hex.UseAbility(target,false);
+                            Utils.Sleep(200, "Hex");
                         }
                         else
                             elsecount += 1;
                         if (Laser != null && Laser.CanBeCasted() && Menu.Item("Skills: ").GetValue<AbilityToggler>().IsEnabled(Laser.Name) && magicimune && Utils.SleepCheck("Rearm") && !Refresh.IsChanneling && Utils.SleepCheck("laser"))
                         {
-                            Utils.Sleep(400 - Game.Ping, "laser");
-                            Laser.UseAbility(target);
+                            Utils.Sleep(200, "laser");
+                            Laser.UseAbility(target,false);
                         }
                         else
                             elsecount += 1;
-                        if (Ethereal != null && Ethereal.CanBeCasted() && Menu.Item("Items: ").GetValue<AbilityToggler>().IsEnabled(Ethereal.Name) && magicimune && Utils.SleepCheck("Rearm") && !Refresh.IsChanneling && Utils.SleepCheck("ethereal") && me.Distance2D(target) <= Ethereal.CastRange && target.Health >= target.DamageTaken(dagondamage[Dagon.Level - 1],DamageType.Magical,me,false,0,0,0))
+                        if (Ethereal != null && Ethereal.CanBeCasted() && Menu.Item("Items: ").GetValue<AbilityToggler>().IsEnabled(Ethereal.Name) && magicimune && Utils.SleepCheck("Rearm") && !Refresh.IsChanneling && Utils.SleepCheck("Ethereal") && me.Distance2D(target) <= Ethereal.CastRange && (Dagon != null ? target.Health >= target.DamageTaken(dagondamage[Dagon.Level - 1],DamageType.Magical,me,false,0,0,0) : true))
                         {
-                            Ethereal.UseAbility(target);
-                            Utils.Sleep(400 - Game.Ping, "Ethereal");
+                            Ethereal.UseAbility(target,false);
+                            Utils.Sleep(200, "Ethereal");
                             if (Utils.SleepCheck("EtherealTime"))
                             {
                                 Utils.Sleep(((me.NetworkPosition.Distance2D(target.NetworkPosition) / 1200) * 1000) + 25, "EtherealTime");
@@ -324,15 +355,15 @@ namespace Tinker_Perfect_type
                             elsecount += 1;
                         if (Dagon != null && Dagon.CanBeCasted() && (!Ethereal.CanBeCasted() || target.Health <= target.DamageTaken(dagondamage[Dagon.Level - 1], DamageType.Magical, me, false, 0, 0, 0)) && Menu.Item("Items: ").GetValue<AbilityToggler>().IsEnabled("item_dagon") && magicimune && Utils.SleepCheck("Rearm") && Utils.SleepCheck("EtherealTime") && !Refresh.IsChanneling && Utils.SleepCheck("dagon"))
                         {
-                            Dagon.UseAbility(target);
-                            Utils.Sleep(350 - Game.Ping, "dagon");
+                            Dagon.UseAbility(target,false);
+                            Utils.Sleep(200, "dagon");
                         }
                         else
                             elsecount += 1;
                         if (Rocket != null && Rocket.CanBeCasted() && Menu.Item("Skills: ").GetValue<AbilityToggler>().IsEnabled(Rocket.Name) && magicimune && Utils.SleepCheck("Rearm") && !Refresh.IsChanneling && Utils.SleepCheck("rocket") && me.Distance2D(target) <= Rocket.CastRange)
                         {
-                            Rocket.UseAbility();
-                            Utils.Sleep(500 - Game.Ping, "rocket");
+                            Rocket.UseAbility(false);
+                            Utils.Sleep(200, "rocket");
                             if (Utils.SleepCheck("RocketTime"))
                             {
                                 Utils.Sleep(((me.NetworkPosition.Distance2D(target.NetworkPosition) / 900) * 1000), "RocketTime");
@@ -343,58 +374,66 @@ namespace Tinker_Perfect_type
                             elsecount += 1;
                         if (Shiva != null && Shiva.CanBeCasted() && Menu.Item("Items: ").GetValue<AbilityToggler>().IsEnabled(Shiva.Name) && magicimune && Utils.SleepCheck("Rearm") && !Refresh.IsChanneling && Utils.SleepCheck("shiva"))
                         {
-                            Shiva.UseAbility();
-                            Utils.Sleep(200 - Game.Ping, "shiva");
+                            Shiva.UseAbility(false);
+                            Utils.Sleep(200, "shiva");
                         }
                         else
                             elsecount += 1;
                         if (elsecount == 9 && euls != null && euls.CanBeCasted() && Menu.Item("Items2: ").GetValue<AbilityToggler>().IsEnabled(euls.Name) && magicimune && Utils.SleepCheck("Rearm") && Utils.SleepCheck("EtherealTime2") && Utils.SleepCheck("RocketTime2") && Utils.SleepCheck("euls"))
                         {
-                            euls.UseAbility(target);
-                            Utils.Sleep(200 - Game.Ping, "euls");
+                            euls.UseAbility(target,false);
+                            Utils.Sleep(200, "euls");
                         }
                         else
                             elsecount += 1;
                         if (elsecount == 10 && Refresh != null && Refresh.CanBeCasted() && Menu.Item("Skills: ").GetValue<AbilityToggler>().IsEnabled(Refresh.Name) && !Refresh.IsChanneling && Utils.SleepCheck("Rearm") && Ready_for_refresh())
                         {
-                            Refresh.UseAbility();
+                            Refresh.UseAbility(false);
                             Utils.Sleep(1000, "Rearm");
                         }
                         else
                         {
-                            if (!me.IsChanneling() && me.CanAttack() && Utils.SleepCheck("Rearm"))
-                                Orbwalking.Orbwalk(target);
+                            if (!me.IsChanneling() && me.CanAttack() && Utils.SleepCheck("Rearm") && Utils.SleepCheck("movesleep2"))
+                            {
+                                //Orbwalking.Orbwalk(target);
+                                me.Attack(target);
+                                Utils.Sleep(500, "movesleep2");
+                            }
                         }
                     }
                 }
                 else
                 {
-                    autoattack(false);
-                    if (!me.IsChanneling() && Utils.SleepCheck("Rearm") && !me.Spellbook.Spells.Any(x => x.IsInAbilityPhase))
-                        me.Move(Game.MousePosition);
+                    //autoattack(false);
+                    if (!me.IsChanneling() && Utils.SleepCheck("Rearm") && !me.Spellbook.Spells.Any(x => x.IsInAbilityPhase) && Utils.SleepCheck("movesleep1"))
+                    {
+                        me.Move(Game.MousePosition, false);
+                        Utils.Sleep(500, "movesleep1");
+                    }
+
                 }
             }
-            else
-                autoattack(false);
+            //else
+            //    autoattack(false);
         }
-        static void autoattack(bool key)
-        {
-            if (key)
-            {
-                if (auto_attack)
-                    Game.ExecuteCommand("dota_player_units_auto_attack 0");
-                if (auto_attack_after_spell)
-                    Game.ExecuteCommand("dota_player_units_auto_attack_after_spell 0");
-            }
-            else
-            {
-                if (auto_attack)
-                    Game.ExecuteCommand("dota_player_units_auto_attack 1");
-                if (auto_attack_after_spell)
-                    Game.ExecuteCommand("dota_player_units_auto_attack_after_spell 1");
-            }
+        //static void autoattack(bool key)
+        //{
+        //    if (key)
+        //    {
+        //        if (auto_attack)
+        //            Game.ExecuteCommand("dota_player_units_auto_attack 0");
+        //        if (auto_attack_after_spell)
+        //            Game.ExecuteCommand("dota_player_units_auto_attack_after_spell 0");
+        //    }
+        //    else
+        //    {
+        //        if (auto_attack)
+        //            Game.ExecuteCommand("dota_player_units_auto_attack 1");
+        //        if (auto_attack_after_spell)
+        //            Game.ExecuteCommand("dota_player_units_auto_attack_after_spell 1");
+        //    }
 
-        }
+        //}
         static void markedfordeath(EventArgs args)
         {
             if (!Game.IsInGame || Game.IsWatchingGame)
@@ -408,7 +447,7 @@ namespace Tinker_Perfect_type
             if (target != null && !target.IsIllusion && target.IsAlive)
             {
                 Vector2 target_health_bar = HeroPositionOnScreen(target);
-                Drawing.DrawText("Marked for Death", target_health_bar, new Vector2(10, 200), me.Distance2D(target) < 1200 ? Color.Red : Color.Azure, FontFlags.AntiAlias | FontFlags.Additive | FontFlags.DropShadow);
+                Drawing.DrawText("Marked for Death", target_health_bar, new Vector2(10, 200), me.Distance2D(target) < 1200 ? SharpDX.Color.Red : SharpDX.Color.Azure, FontFlags.AntiAlias | FontFlags.Additive | FontFlags.DropShadow);
             }
             //if (!Utils.SleepCheck("BLINKTOGGLE"))
             //    Drawing.DrawText(Menu.Item("Items: ").GetValue<AbilityToggler>().IsEnabled("item_blink") == true ? "BLINK ON" : "BLINK OFF", new Vector2(HUDInfo.ScreenSizeX() / 2, HUDInfo.ScreenSizeY() / 2), new Vector2(30, 200), Menu.Item("Items: ").GetValue<AbilityToggler>().IsEnabled("item_blink") == true ? Color.LimeGreen : Color.Red, FontFlags.AntiAlias | FontFlags.Additive | FontFlags.DropShadow);

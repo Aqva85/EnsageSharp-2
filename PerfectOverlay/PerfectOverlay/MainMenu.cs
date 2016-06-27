@@ -23,7 +23,7 @@ namespace PerfectOverlay
             Menu.AddItem(new MenuItem("Overlay Menu", "Overlay Menu").SetValue(true).SetTooltip("Show Overlay Menu, with skills, cooldowns, dangerous items.."));
             Menu.AddItem(new MenuItem("Show Illusions", "Show Illusions").SetValue(true).SetTooltip("Show an enemy Illusion."));
             Menu.AddItem(new MenuItem("Show Wards/Mines", "Show Wards/Mines").SetValue(true).SetTooltip("Show all enemies wards and techies mines with ranges.(you need to see them at least one time to work."));
-            Menu.AddItem(new MenuItem("Show TOP Overlay", "Show TOP Overlay").SetValue(true).SetTooltip("Top health bar, top mana bars, to ultimate timing."));
+            //Menu.AddItem(new MenuItem("Show TOP Overlay", "Show TOP Overlay").SetValue(true).SetTooltip("Top health bar, top mana bars, to ultimate timing."));
             Menu.AddToMainMenu();
             PrintSuccess("> Perfect Overlay !");
             Game.OnUpdate += Playing;
@@ -40,7 +40,7 @@ namespace PerfectOverlay
             if (!Game.IsInGame)
                 return;
             if (Menu.Item("Overlay Menu").GetValue<bool>())
-                OverlayMenu.start(Menu.Item("Show TOP Overlay").GetValue<bool>());
+                OverlayMenu.start(/*Menu.Item("Show TOP Overlay").GetValue<bool>()*/);
             if (Menu.Item("Show Wards/Mines").GetValue<bool>())
                 wards.start();
         }

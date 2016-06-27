@@ -30,7 +30,7 @@ namespace PerfectOverlay.scripts
 
         private static float i, i2, i3;
 
-        public static void start(bool topmenu)
+        public static void start(/*bool topmenu*/)
         {
             me = ObjectMgr.LocalHero;
             if (me == null && !Game.IsInGame) return;
@@ -42,38 +42,38 @@ namespace PerfectOverlay.scripts
             {
                 try
                 {
-                    for (uint t = 0; t < 10; t++)
-                    {
-                        player = ObjectMgr.GetPlayerById(t);
-                        if (player != null && player.Team != me.Team)
-                        {
-                            Hero x = player.Hero;
-                            if (x != null && x.IsValid && x.Health != 0)
-                            {
-                                if (topmenu)
-                                {
-                                    TOP_HEALTH_BAR_POS = new Vector2(HUDInfo.GetTopPanelPosition(x).X, (float)HUDInfo.GetTopPanelSizeY(x) + (1 * ScaleY));
-                                    TOP_HEALTH_BAR_SIZE = new Vector2(((float)HUDInfo.GetTopPanelSizeX(x) / (x.MaximumHealth / (float)x.Health)) - (2 * ScaleX), boxSizeY - (13 * ScaleY));
-                                    TOP_MANA_BAR_POS = new Vector2(HUDInfo.GetTopPanelPosition(x).X, (float)HUDInfo.GetTopPanelSizeY(x) + 6);
-                                    TOP_MANA_BAR_SIZE = new Vector2(((float)HUDInfo.GetTopPanelSizeX(x) / (x.MaximumMana / x.Mana)) - (2 * ScaleX), boxSizeY - (13 * ScaleY));
-                                    TOP_BAR_FULLSIZE = new Vector2((float)HUDInfo.GetTopPanelSizeX(x) - (2 * ScaleX), boxSizeY - (13 * ScaleY));
-                                    TOP_ULT_BAR_POS = new Vector2(HUDInfo.GetTopPanelPosition(x).X, (float)HUDInfo.GetTopPanelSizeY(x) + (12 * ScaleY));
-                                    TOP_ULT_BAR_SIZE = new Vector2(((float)HUDInfo.GetTopPanelSizeX(x) / (x.Spellbook.SpellR.CooldownLength / x.Spellbook.SpellR.Cooldown)) - (2 * ScaleX), boxSizeY - (13 * ScaleY));
-                                    if (MouseOnSpot(TOP_HEALTH_BAR_POS, new Vector2((float)HUDInfo.GetTopPanelSizeX(x), 100 * ScaleY)))
-                                        Drawing.DrawText("HP: " + (int)x.Health + " / MANA: " + (int)x.Mana + " / ULT: " + (int)x.Spellbook.SpellR.Cooldown, TOP_HEALTH_BAR_POS + new Vector2(-5 * ScaleX, 17 * ScaleY), new Vector2(18 * ScaleX, 15 * ScaleY), Color.White, FontFlags.AntiAlias | FontFlags.StrikeOut | FontFlags.Additive);
-                                    Drawing.DrawRect(TOP_HEALTH_BAR_POS, TOP_HEALTH_BAR_SIZE, Color.Green, false);
-                                    Drawing.DrawRect(TOP_HEALTH_BAR_POS, TOP_BAR_FULLSIZE, Color.Black, true);
-                                    Drawing.DrawRect(TOP_MANA_BAR_POS, TOP_MANA_BAR_SIZE, new Color(0x00, 0x80, 0xF8, 0xFF), false);
-                                    Drawing.DrawRect(TOP_MANA_BAR_POS, TOP_BAR_FULLSIZE, Color.Black, true);
-                                    if (TOP_ULT_BAR_SIZE.X > 0)
-                                    {
-                                        Drawing.DrawRect(TOP_ULT_BAR_POS, TOP_ULT_BAR_SIZE, Color.Gold, false);
-                                        Drawing.DrawRect(TOP_ULT_BAR_POS, TOP_BAR_FULLSIZE, Color.Black, true);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    //for (uint t = 0; t < 10; t++)
+                    //{
+                    //    player = ObjectMgr.GetPlayerById(t);
+                    //    if (player != null && player.Team != me.Team)
+                    //    {
+                    //        Hero x = player.Hero;
+                    //        if (x != null && x.IsValid && x.Health != 0)
+                    //        {
+                    //            if (topmenu)
+                    //            {
+                    //                TOP_HEALTH_BAR_POS = new Vector2(HUDInfo.GetTopPanelPosition(x).X, (float)HUDInfo.GetTopPanelSizeY(x) + (1 * ScaleY));
+                    //                TOP_HEALTH_BAR_SIZE = new Vector2(((float)HUDInfo.GetTopPanelSizeX(x) / (x.MaximumHealth / (float)x.Health)) - (2 * ScaleX), boxSizeY - (13 * ScaleY));
+                    //                TOP_MANA_BAR_POS = new Vector2(HUDInfo.GetTopPanelPosition(x).X, (float)HUDInfo.GetTopPanelSizeY(x) + 6);
+                    //                TOP_MANA_BAR_SIZE = new Vector2(((float)HUDInfo.GetTopPanelSizeX(x) / (x.MaximumMana / x.Mana)) - (2 * ScaleX), boxSizeY - (13 * ScaleY));
+                    //                TOP_BAR_FULLSIZE = new Vector2((float)HUDInfo.GetTopPanelSizeX(x) - (2 * ScaleX), boxSizeY - (13 * ScaleY));
+                    //                TOP_ULT_BAR_POS = new Vector2(HUDInfo.GetTopPanelPosition(x).X, (float)HUDInfo.GetTopPanelSizeY(x) + (12 * ScaleY));
+                    //                TOP_ULT_BAR_SIZE = new Vector2(((float)HUDInfo.GetTopPanelSizeX(x) / (x.Spellbook.SpellR.CooldownLength / x.Spellbook.SpellR.Cooldown)) - (2 * ScaleX), boxSizeY - (13 * ScaleY));
+                    //                if (MouseOnSpot(TOP_HEALTH_BAR_POS, new Vector2((float)HUDInfo.GetTopPanelSizeX(x), 100 * ScaleY)))
+                    //                    Drawing.DrawText("HP: " + (int)x.Health + " / MANA: " + (int)x.Mana + " / ULT: " + (int)x.Spellbook.SpellR.Cooldown, TOP_HEALTH_BAR_POS + new Vector2(-5 * ScaleX, 17 * ScaleY), new Vector2(18 * ScaleX, 15 * ScaleY), Color.White, FontFlags.AntiAlias | FontFlags.StrikeOut | FontFlags.Additive);
+                    //                Drawing.DrawRect(TOP_HEALTH_BAR_POS, TOP_HEALTH_BAR_SIZE, Color.Green, false);
+                    //                Drawing.DrawRect(TOP_HEALTH_BAR_POS, TOP_BAR_FULLSIZE, Color.Black, true);
+                    //                Drawing.DrawRect(TOP_MANA_BAR_POS, TOP_MANA_BAR_SIZE, new Color(0x00, 0x80, 0xF8, 0xFF), false);
+                    //                Drawing.DrawRect(TOP_MANA_BAR_POS, TOP_BAR_FULLSIZE, Color.Black, true);
+                    //                if (TOP_ULT_BAR_SIZE.X > 0)
+                    //                {
+                    //                    Drawing.DrawRect(TOP_ULT_BAR_POS, TOP_ULT_BAR_SIZE, Color.Gold, false);
+                    //                    Drawing.DrawRect(TOP_ULT_BAR_POS, TOP_BAR_FULLSIZE, Color.Black, true);
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+                    //}
                     foreach (Hero x in heroes)
                     {
                         if (x == null) continue;
@@ -129,7 +129,7 @@ namespace PerfectOverlay.scripts
                         }
                         foreach (Item z in DangerItems)
                         {
-                            if (z != null && !x.UnitState.HasFlag(UnitState.NoHealthbar) && (z.Name == "item_gem" || z.Name == "item_dust" || z.Name == "item_sphere" || z.Name == "item_blink" || z.Name == "item_ward_observer" || z.Name == "item_ward_sentry" || z.Name == "item_black_king_bar" || z.Name == "item_ward_dispenser" || z.Name == "item_sheepstick" || z.Name == "item_blade_mail" || z.Name == "item_rapier" || z.Name == "item_cyclone" || z.Name == "item_shadow_amulet" || z.Name == "item_invis_sword" || z.Name == "item_silver_edge" || z.Name == "item_glimmer_cape" || z.Name == "item_lotus_orb" || z.Name == "item_orchid" || z.Name.Contains("item_dagon") || z.Name == "item_manta" || z.Name == "item_aegis" || z.Name == "item_cheese"))
+                            if (z != null && !x.UnitState.HasFlag(UnitState.NoHealthbar) && (z.Name == "item_gem" || z.Name == "item_dust" || z.Name == "item_sphere" || z.Name == "item_blink" || z.Name == "item_ward_observer" || z.Name == "item_ward_sentry" || z.Name == "item_black_king_bar" || z.Name == "item_ward_dispenser" || z.Name == "item_sheepstick" || z.Name == "item_blade_mail" || z.Name == "item_rapier" || z.Name == "item_cyclone" || z.Name == "item_shadow_amulet" || z.Name == "item_invis_sword" || z.Name == "item_silver_edge" || z.Name == "item_glimmer_cape" || z.Name == "item_lotus_orb" || z.Name == "item_orchid" || z.Name.Contains("item_dagon") || z.Name == "item_manta" || z.Name == "item_aegis" || z.Name == "item_cheese" || z.Name == "item_faerie_fire" || z.Name == "item_ghost" || z.Name == "item_infused_raindrop" || z.Name == "item_magic_stick" || z.Name == "item_smoke_of_deceit" || z.Name == "item_magic_wand" || z.Name == "item_ultimate_scepter" || z.Name == "item_bloodthorn" || z.Name == "item_bloodstone" || z.Name == "item_ethereal_blade" || z.Name == "item_echo_sabre" || z.Name == "item_guardian_greaves" || z.Name == "item_force_staff" || z.Name == "item_hand_of_midas" || z.Name == "item_heavens_halberd" || z.Name == "item_hurricane_pike" || z.Name == "item_mask_of_madness" || z.Name == "item_abyssal_blade" || z.Name == "item_basher" || z.Name == "item_solar_crest" || z.Name == "item_soul_ring" || z.Name == "item_urn_of_shadows" || z.Name == "item_veil_of_discord" || z.Name == "item_enchanted_mango" || z.Name == "item_tpscroll" || z.Name == "item_aether_lens" || z.Name == "item_arcane_boots" || z.Name == "item_diffusal_blade" || z.Name == "item_diffusal_blade_2" || z.Name == "item_skadi" || z.Name == "item_medallion_of_courage" || z.Name == "item_mekansm" || z.Name == "item_monkey_king_bar" || z.Name == "item_mjollnir" || z.Name == "item_moon_shard" || z.Name == "item_necronomicon" || z.Name == "item_necronomicon_2" || z.Name == "item_necronomicon_3" || z.Name == "item_pipe" || z.Name == "item_refresher" || z.Name == "item_rod_of_atos" || z.Name == "item_satanic" || z.Name == "item_shivas_guard" || z.Name == "item_satanic" || z.Name == "item_basher" || z.Name == "item_tranquil_boots" || z.Name == "item_basher" || z.Name == "item_phase_boots" || z.Name == "item_travel_boots" || z.Name == "item_travel_boots_2" || z.Name == "item_boots" || z.Name == "item_power_treads"))
                             {
                                 Drawing.DrawRect(new Vector2(HUDInfo.GetHPbarPosition(x).X + ((i3 * 20) * ScaleX), HUDInfo.GetHPbarPosition(x).Y + (15 * ScaleY)), new Vector2(boxSizeX + (6 * ScaleX), boxSizeY), Drawing.GetTexture("materials/ensage_ui/items/" + z.Name.Remove(0, 5)));
                                 Drawing.DrawRect(new Vector2(HUDInfo.GetHPbarPosition(x).X + ((i3 * 20) * ScaleX), HUDInfo.GetHPbarPosition(x).Y + (15 * ScaleY)), new Vector2(boxSizeX, boxSizeY), Color.Black, true);
